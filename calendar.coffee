@@ -19,7 +19,7 @@ module.exports = (env) ->
       @scheduledTimeouts = []
       @ongoingEvents = {}
 
-      scheduleInterval = 120*60*1000
+      scheduleInterval = 10*60*1000
 
       # init first schedule times
       from = new Date()
