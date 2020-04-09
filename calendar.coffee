@@ -40,9 +40,7 @@ module.exports = (env) ->
         # fetch calendars
         lastError = null
         refetchCalendar = () =>
-          env.logger.info "Start fetchAllCalendars"
           @fetchAllCalendars().then( () =>
-            env.logger.info "All Calendars fetched"
             recreateTimeouts()
           ).then( () =>
             resolve()
@@ -54,7 +52,6 @@ module.exports = (env) ->
               lastError = err
             setTimeout(refetchCalendar, 10000)
           ).done()
-        env.logger.info "IN pendingInit ++++++++++++++++++"
         refetchCalendar()
       )
 
@@ -68,11 +65,11 @@ module.exports = (env) ->
         icalExpander = new IcalExpander({ics: allEvents, maxIterations: 100})
         events = icalExpander.between(from,to) 
 
-        env.logger.info "Events: " + JSON.stringify(events,null,2)
+        #env.logger.info "Events: " + JSON.stringify(events,null,2)
         mappedEvents = events.events.map((e) => ({ start: e.startDate, end: e.endDate, uid: e.uid, summary: e.summary, description: e.description }))
         mappedOccurrences = events.occurrences.map((o) => ({ start: o.startDate, end: o.endDate, uid: o.uid, summary: o.item.summary, description: o.item.description }))
         nextEvents = [].concat(mappedEvents, mappedOccurrences)
-        env.logger.info "nextEvents: " + JSON.stringify(nextEvents,null,2)
+        #env.logger.info "nextEvents: " + JSON.stringify(nextEvents,null,2)
         now = new Date()
         # current events
 
