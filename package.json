@@ -1,0 +1,30 @@
+{
+  "name": "pimatic-calendar",
+  "description": "Predicates for calendar events from ical calendars (e.g. Google Calendar)",
+  "author": "Bert Gierveld <gitbertreb@gmail.com>",
+  "main": "calendar",
+  "files": [
+    "calendar.coffee",
+    "LICENSE",
+    "README.md",
+    "calendar-config-schema.coffee"
+  ],
+  "version": "0.9.0",
+  "homepage": "http://github.com/pimatic/pimatic",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pimatic/pimatic-calendar.git"
+  },
+  "configSchema": "calendar-config-schema.coffee",
+  "dependencies": {
+    "ical-expander": "^2.1.0",
+    "needle": "^2.4.1"
+  },
+  "peerDependencies": {
+    "pimatic": "0.9.*"
+  },
+  "engines": {
+    "node": ">=4",
+    "npm": ">1.1.x"
+  }
+}
