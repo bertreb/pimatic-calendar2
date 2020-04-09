@@ -19,6 +19,7 @@ module.exports = (env) ->
       @scheduledTimeouts = []
       @ongoingEvents = {}
 
+      updateInterval = if @config.updateInterval? then @config.updateInterval else 3600000 # 1 hour
       scheduleInterval = 10*60*1000
 
       # init first schedule times
@@ -44,7 +45,7 @@ module.exports = (env) ->
             recreateTimeouts()
           ).then( () =>
             resolve()
-            setTimeout(refetchCalendar, @config.updateInterval)
+            setTimeout(refetchCalendar, updateInterval)
           ).catch( (err) =>
             unless err.message is lastError?.message
               env.logger.error("Error fetching calendars: #{err.message}")
