@@ -68,8 +68,9 @@ module.exports = (env) ->
         icalExpander = new IcalExpander({ics: allEvents, maxIterations: 100})
         events = icalExpander.between(from,to) 
 
+        env.logger.info "Events: " + JSON.stringify(events,null,2)
         mappedEvents = events.events.map((e) => ({ start: e.startDate, end: e.endDate, uid: e.uid, summary: e.summary, description: e.description }))
-        mappedOccurrences = events.occurrences.map((o) => ({ start: o.startDate, end: o.endDate, uid: o.uid, summary: o.summary, description: o.description }))
+        mappedOccurrences = events.occurrences.map((o) => ({ start: o.startDate, end: o.endDate, uid: o.uid, summary: o.item.summary, description: o.item.description }))
         nextEvents = [].concat(mappedEvents, mappedOccurrences)
         env.logger.info "nextEvents: " + JSON.stringify(nextEvents,null,2)
         now = new Date()
@@ -246,6 +247,8 @@ module.exports = (env) ->
         eventValue = info.summary # info.event.summary
       else if @field is 'description'
         eventValue = info.description # .event.description
+      unless eventValue?
+        return false
       if @checkType is 'equals' and eventValue is @fieldValue
         return true
       if @checkType is 'contains' and eventValue.indexOf(@fieldValue) isnt -1
