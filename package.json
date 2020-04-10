@@ -1,6 +1,6 @@
 {
-  "name": "pimatic-calendar",
-  "description": "Predicates for calendar events from ical calendars (e.g. Google Calendar)",
+  "name": "pimatic-calendar2",
+  "description": "Pimatic integration of calendar events from ical calendars (e.g. Google Calendar)",
   "author": "Bert Gierveld <gitbertreb@gmail.com>",
   "main": "calendar",
   "files": [
@@ -13,7 +13,7 @@
   "homepage": "http://github.com/pimatic/pimatic",
   "repository": {
     "type": "git",
-    "url": "git://github.com/pimatic/pimatic-calendar.git"
+    "url": "git://github.com/pimatic/pimatic-calendar2.git"
   },
   "configSchema": "calendar-config-schema.coffee",
   "dependencies": {

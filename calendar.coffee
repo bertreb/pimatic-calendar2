@@ -232,24 +232,24 @@ module.exports = (env) ->
       calPlugin.on 'event-start', @onEventStart = (info) =>
         if @eventType is 'starts'
           if @_doesMatch info
-            @emit 'change', 'event'
             calPlugin.emit 'calendar-event', (if @field is 'title' then info.summary else info.description)
+            @emit 'change', 'event'
         else if @eventType is 'takes place'
           if @_doesMatch info
             @state = true
-            @emit 'change', true
             calPlugin.emit 'calendar-event', (if @field is 'title' then info.summary else info.description)
+            @emit 'change', true
 
       calPlugin.on 'event-end', @onEventEnd = (info) =>
         if @eventType is 'ends'
           if @_doesMatch info
-            @emit 'change', 'event'
             calPlugin.emit 'calendar-event', ""
+            @emit 'change', 'event'
         else if @eventType is 'takes place'
           if @_doesMatch info
             @state = false
-            @emit 'change', false
             calPlugin.emit 'calendar-event', ""
+            @emit 'change', false
       super()
 
     _doesMatch: (info) ->

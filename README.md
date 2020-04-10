@@ -1,6 +1,7 @@
 pimatic-calendar
 ================
 
+Pimatic integration of calendar events from ical calendars (e.g. Google Calendar). This plugin provides predicates for ical calendar events. 
 This plugin is an update of the plugin pimatic-calendar from [sweetpi](https://github.com/pimatic/pimatic-calendar).
 
 Major software changes:
@@ -8,8 +9,6 @@ Major software changes:
 - Request is not maintained anymore and is replaced by needle for http(s) ical requests.
 - The calendars settings in the plugin is fixed.
 
-
-This plugin provides predicates for calendar events from ical calendars (e.g. Google Calendar)
 
 ```json
   {
