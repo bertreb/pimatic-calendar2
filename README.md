@@ -20,6 +20,7 @@ This plugin provides predicates for calendar events from ical calendars (e.g. Go
         "ical": "https://calendar.google.com/calendar/ical/.../basic.ics"
       }
     ]
+  }
 ```
 
 To get a ical url from your google calendar follow https://support.google.com/calendar/answer/37648 under "See your calendar (view only)"
@@ -30,4 +31,4 @@ The following predicates are supported:
 if calendar event with [title|description] [contains|equals] "some text" [starts|ends|takes place] then ...
 ```
 ----
-This plugin is Pimatic version 0.9.x compatible and supports node v4-v10. 
+This plugin is Pimatic version 0.9.x compatible and supports node v4-v10.
