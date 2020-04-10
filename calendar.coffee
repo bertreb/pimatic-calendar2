@@ -22,6 +22,15 @@ module.exports = (env) ->
       @updateInterval = if @config.updateInterval? then @config.updateInterval else 3600000 # 1 hour
       scheduleInterval = 10*60*1000
 
+      #currentEvent
+      @calendarEventVariableName = "calendar-event"
+      @framework.variableManager.waitForInit()
+      .then(()=>
+        @calendarEvent = @framework.variableManager.setVariableToValue(@calendarEventVariableName, "", "")
+        @on 'calendar-event', (value)=>
+          @framework.variableManager.setVariableToValue(@calendarEventVariableName, value, "")
+      )
+
       # init first schedule times
       from = new Date()
       to = new Date(from)
@@ -68,9 +77,9 @@ module.exports = (env) ->
 
         #env.logger.info "Events: " + JSON.stringify(events,null,2)
         mappedEvents = events.events.map((e) => ({ start: e.startDate, end: e.endDate, uid: e.uid, summary: e.summary, description: e.description }))
-        mappedOccurrences = events.occurrences.map((o) => ({ start: o.startDate, end: o.endDate, uid: o.uid, summary: o.item.summary, description: o.item.description }))
+        mappedOccurrences = events.occurrences.map((o) => ({ start: o.startDate, end: o.endDate, uid: o.item.uid, summary: o.item.summary, description: o.item.description }))
         nextEvents = [].concat(mappedEvents, mappedOccurrences)
-        #env.logger.info "nextEvents: " + JSON.stringify(nextEvents,null,2)
+        env.logger.info "nextEvents: " + JSON.stringify(nextEvents,null,2)
         now = new Date()
         # current events
 
@@ -224,19 +233,23 @@ module.exports = (env) ->
         if @eventType is 'starts'
           if @_doesMatch info
             @emit 'change', 'event'
+            calPlugin.emit 'calendar-event', (if @field is 'title' then info.summary else info.description)
         else if @eventType is 'takes place'
           if @_doesMatch info
             @state = true
             @emit 'change', true
+            calPlugin.emit 'calendar-event', (if @field is 'title' then info.summary else info.description)
 
       calPlugin.on 'event-end', @onEventEnd = (info) =>
         if @eventType is 'ends'
           if @_doesMatch info
             @emit 'change', 'event'
+            calPlugin.emit 'calendar-event', ""
         else if @eventType is 'takes place'
           if @_doesMatch info
             @state = false
             @emit 'change', false
+            calPlugin.emit 'calendar-event', ""
       super()
 
     _doesMatch: (info) ->
