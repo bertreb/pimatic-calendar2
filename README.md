@@ -1,7 +1,7 @@
 pimatic-calendar
 ================
 
-This plugin is an update of the plugin pimatic-calendar from (sweetpi)[https://github.com/pimatic/pimatic-calendar].
+This plugin is an update of the plugin pimatic-calendar from [sweetpi](https://github.com/pimatic/pimatic-calendar).
 
 Major software changes:
 - Ical is replaced by ical-expander for better support of recurring events.
