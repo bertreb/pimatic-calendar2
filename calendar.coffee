@@ -53,12 +53,11 @@ module.exports = (env) ->
           @fetchAllCalendars().then( () =>
             recreateTimeouts()
           ).then( () =>
-            resolve()
             setTimeout(refetchCalendar, @updateInterval)
-          ).catch( (err) =>
+            resolve()
+          ).catch((err) =>
             unless err.message is lastError?.message
-              env.logger.error("Error fetching calendars: #{err.message}")
-              env.logger.debug(err)
+              env.logger.debug("Error fetching calendars: #{err.message}")
               lastError = err
             setTimeout(refetchCalendar, 10000)
           ).done()
@@ -79,7 +78,7 @@ module.exports = (env) ->
         mappedEvents = events.events.map((e) => ({ start: e.startDate, end: e.endDate, uid: e.uid, summary: e.summary, description: e.description }))
         mappedOccurrences = events.occurrences.map((o) => ({ start: o.startDate, end: o.endDate, uid: o.item.uid, summary: o.item.summary, description: o.item.description }))
         nextEvents = [].concat(mappedEvents, mappedOccurrences)
-        env.logger.info "nextEvents: " + JSON.stringify(nextEvents,null,2)
+        #env.logger.info "nextEvents: " + JSON.stringify(nextEvents,null,2)
         now = new Date()
         # current events
 
@@ -146,13 +145,12 @@ module.exports = (env) ->
 
     fetchCalendar: (calendar) ->
       return new Promise((resolve,reject) =>
-        needle.get(calendar.ical, (err,resp) =>
-          if not err and resp.statusCode == 200
+        needle.get(calendar.ical, (err,resp)=>
+          if not err && resp.statusCode == 200
             resolve(resp.body)
-            return
           else
             env.logger.debug "Error handled in fetchCalendar " + err
-            reject()
+            reject(err)
         )
       )
 
