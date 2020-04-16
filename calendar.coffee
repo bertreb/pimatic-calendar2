@@ -147,10 +147,12 @@ module.exports = (env) ->
     fetchCalendar: (calendar) ->
       return new Promise((resolve,reject) =>
         needle.get(calendar.ical, (err,resp) =>
-          if err?
+          if not err and resp.statusCode == 200
+            resolve(resp.body)
+            return
+          else
             env.logger.debug "Error handled in fetchCalendar " + err
-            reject(err)
-          resolve(resp.body)
+            reject()
         )
       )
 
