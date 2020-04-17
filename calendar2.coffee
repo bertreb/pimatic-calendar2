@@ -56,10 +56,8 @@ module.exports = (env) ->
             setTimeout(refetchCalendar, @updateInterval)
             resolve()
           ).catch((err) =>
-            #unless err.message is lastError?.message
             if err?
-              env.logger.debug "Error fetching calendars: " + err
-              #lastError = err
+              env.logger.debug("Error fetching calendars: #{err}")
             setTimeout(refetchCalendar, 10000)
           ).done()
         refetchCalendar()
@@ -71,11 +69,11 @@ module.exports = (env) ->
     scheduleTimeouts: (from, to) ->
       _.forEach(@calendars, (cal) =>
         allEvents = cal.events or []
+        #env.logger.info "allEvents: " + JSON.stringify(allEvents,null,2)
 
         icalExpander = new IcalExpander({ics: allEvents, maxIterations: 100})
         events = icalExpander.between(from,to) 
 
-        #env.logger.info "Events: " + JSON.stringify(events,null,2)
         mappedEvents = events.events.map((e) => ({ start: e.startDate, end: e.endDate, uid: e.uid, summary: e.summary, description: e.description }))
         mappedOccurrences = events.occurrences.map((o) => ({ start: o.startDate, end: o.endDate, uid: o.item.uid, summary: o.item.summary, description: o.item.description }))
         nextEvents = [].concat(mappedEvents, mappedOccurrences)
@@ -102,7 +100,7 @@ module.exports = (env) ->
 
         _.forEach(nextEvents, (info) =>
           currentTime = now.getTime()
-          # scedule start if not already started
+          # schedule start if not already started
           _start = new Date(info.start)
           if _start >= from and _start < to
             timeout = Math.max(0, _start.getTime() - currentTime)
@@ -147,11 +145,10 @@ module.exports = (env) ->
     fetchCalendar: (calendar) ->
       return new Promise((resolve,reject) =>
         needle.get(calendar.ical, (err,resp)=>
-          if not err && resp.statusCode == 200
-            resolve(resp.body)
-          else
+          if err?
             env.logger.debug "Error handled in fetchCalendar " + err
             reject(err)
+          resolve(resp.body)
         )
       )
 
