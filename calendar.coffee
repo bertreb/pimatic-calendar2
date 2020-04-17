@@ -56,9 +56,10 @@ module.exports = (env) ->
             setTimeout(refetchCalendar, @updateInterval)
             resolve()
           ).catch((err) =>
-            unless err.message is lastError?.message
-              env.logger.debug("Error fetching calendars: #{err.message}")
-              lastError = err
+            #unless err.message is lastError?.message
+            if err?
+              env.logger.debug "Error fetching calendars: " + err
+              #lastError = err
             setTimeout(refetchCalendar, 10000)
           ).done()
         refetchCalendar()
