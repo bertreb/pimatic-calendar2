@@ -72,7 +72,7 @@ module.exports = (env) ->
         #env.logger.info "allEvents: " + JSON.stringify(allEvents,null,2)
 
         icalExpander = new IcalExpander({ics: allEvents, maxIterations: 100})
-        events = icalExpander.between(from,to) 
+        events = icalExpander.between(from,to)
 
         mappedEvents = events.events.map((e) => ({ start: e.startDate, end: e.endDate, uid: e.uid, summary: e.summary, description: e.description }))
         mappedOccurrences = events.occurrences.map((o) => ({ start: o.startDate, end: o.endDate, uid: o.item.uid, summary: o.item.summary, description: o.item.description }))
@@ -105,7 +105,7 @@ module.exports = (env) ->
           if _start >= from and _start < to
             timeout = Math.max(0, _start.getTime() - currentTime)
             toHandle = setTimeout( ( =>
-              uid = info.uid 
+              uid = info.uid
               unless @ongoingEvents[uid]?
                 @ongoingEvents[uid] = info
                 @emit 'event-start', info
@@ -148,6 +148,7 @@ module.exports = (env) ->
           if err?
             env.logger.debug "Error handled in fetchCalendar " + err
             reject(err)
+            return
           resolve(resp.body)
         )
       )

@@ -8,5 +8,5 @@
 	* edit error handling
 * 20200417, v0.9.4
 	* added error handling
-* 20200417, v0.9.5
+* 20200417, v0.9.6
 	* edit
