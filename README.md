@@ -26,7 +26,10 @@ Major software changes:
 
 The following predicates are supported:
 ```
-when calendar event with [title|description] [contains|equals] "some text" [starts|ends|takes place] then ...
+when
+  calendar event with [title|description] [contains|equals] "some text" [starts|ends|takes place]
+then
+  ...
 ```
 
 The variable 'calendar-event' is created. This variable holds the info of the event title or description when an event is started. If you used the title condition in the rule the calendar-event will contain the title and if description is used, the variable will contain the descrption.
