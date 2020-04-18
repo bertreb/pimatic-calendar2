@@ -77,7 +77,7 @@ module.exports = (env) ->
         mappedEvents = events.events.map((e) => ({ start: e.startDate, end: e.endDate, uid: e.uid, summary: e.summary, description: e.description }))
         mappedOccurrences = events.occurrences.map((o) => ({ start: o.startDate, end: o.endDate, uid: o.item.uid, summary: o.item.summary, description: o.item.description }))
         nextEvents = [].concat(mappedEvents, mappedOccurrences)
-        #env.logger.info "nextEvents: " + JSON.stringify(nextEvents,null,2)
+        env.logger.info "nextEvents: " + JSON.stringify(nextEvents,null,2)
         now = new Date()
         # current events
 
@@ -144,13 +144,26 @@ module.exports = (env) ->
 
     fetchCalendar: (calendar) ->
       return new Promise((resolve,reject) =>
-        needle.get(calendar.ical, (err,resp)=>
-          if err?
-            env.logger.debug "Error handled in fetchCalendar " + err
-            reject(err)
-            return
-          resolve(resp.body)
-        )
+        if calendar.username? and calendar.password?
+          opts =
+            username: calendar.username
+            password: calendar.password
+            auth: 'digest'
+          needle.get(calendar.ical, opts, (err, resp)=>
+            if err?
+              env.logger.debug "Error handled in fetchCalendar " + err
+              reject(err)
+              return
+            resolve(resp.body)
+          )
+        else
+          needle.get(calendar.ical, (err, resp)=>
+            if err?
+              env.logger.debug "Error handled in fetchCalendar " + err
+              reject(err)
+              return
+            resolve(resp.body)
+          )
       )
 
     ###

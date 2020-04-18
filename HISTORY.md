@@ -10,3 +10,5 @@
 	* added error handling
 * 20200417, v0.9.6
 	* edit
+* 20200418, v0.9.7
+	* added username/password digest
