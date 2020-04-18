@@ -17,8 +17,8 @@ Major software changes:
       {
         "name": "Main Calendar",
         "ical": "https://calendar.google.com/calendar/ical/.../basic.ics",
-        "username": "Optional, if server needs username for authentication",
-        "password": "Optional, if server needs password for authentication"
+        "username": "Optional, for username authentication",
+        "password": "Optional, for password authentication"
       }
     ]
   }
@@ -32,7 +32,7 @@ if calendar event with [title|description] [contains|equals] "some text" [starts
 The variable 'calendar-event' is created. This variable holds the info of the event title or description when an event is started. If you used the title condition in the rule the calendar-event will contain the title and if description is used, the variable will contain the descrption.
 After the event is stopped the variable is set to an empty string.
 
-To get a ical url from your google calendar follow https://support.google.com/calendar/answer/37648 under "See your calendar (view only)". If you use a calendar server with username/password authentication, you can use that optional feature. 
+To get a ical url from your google calendar follow https://support.google.com/calendar/answer/37648 under "See your calendar (view only)". If you use a calendar server with username/password authentication, you can use that optional feature.
 
 
 ----
