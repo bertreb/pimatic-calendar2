@@ -77,7 +77,7 @@ module.exports = (env) ->
         mappedEvents = events.events.map((e) => ({ start: e.startDate, end: e.endDate, uid: e.uid, summary: e.summary, description: e.description }))
         mappedOccurrences = events.occurrences.map((o) => ({ start: o.startDate, end: o.endDate, uid: o.item.uid, summary: o.item.summary, description: o.item.description }))
         nextEvents = [].concat(mappedEvents, mappedOccurrences)
-        env.logger.info "nextEvents: " + JSON.stringify(nextEvents,null,2)
+        env.logger.debug "nextEvents: " + JSON.stringify(nextEvents,null,2)
         now = new Date()
         # current events
 

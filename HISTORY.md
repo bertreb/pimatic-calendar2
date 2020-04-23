@@ -12,3 +12,5 @@
 	* edit
 * 20200418, v0.9.7
 	* added username/password digest
+* 20200423, v0.9.8
+	* reduced info/debug messages
