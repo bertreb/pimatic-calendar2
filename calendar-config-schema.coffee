@@ -27,4 +27,8 @@ module.exports = {
       description: "Interval in which the ical file is fetched"
       type: "integer"
       default: 3600000
+    debug:
+      description: "Debug mode. Writes debug messages to the pimatic log, if set to true."
+      type: "boolean"
+      default: false
 }

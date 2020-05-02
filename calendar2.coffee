@@ -74,6 +74,8 @@ module.exports = (env) ->
         icalExpander = new IcalExpander({ics: allEvents, maxIterations: 100})
         events = icalExpander.between(from,to)
 
+        #env.logger.debug "Events: " + JSON.stringify(events,null,2)
+
         mappedEvents = events.events.map((e) => ({ start: e.startDate, end: e.endDate, uid: e.uid, summary: e.summary, description: e.description }))
         mappedOccurrences = events.occurrences.map((o) => ({ start: o.startDate, end: o.endDate, uid: o.item.uid, summary: o.item.summary, description: o.item.description }))
         nextEvents = [].concat(mappedEvents, mappedOccurrences)
@@ -82,7 +84,8 @@ module.exports = (env) ->
         # current events
 
         newOngoingEvents = {}
-        _.forEach(_.filter(nextEvents, (info) -> info.start <= now and info.end > now), (info) =>
+        #env.logger.info "Running events " + JSON.stringify(_.filter(nextEvents, (info) -> new Date(info.start) <= now and new Date(info.end) > now))
+        _.forEach(_.filter(nextEvents, (info) -> new Date(info.start) <= now and new Date(info.end) > now), (info) =>
           uid = info.uid
           newOngoingEvents[uid] = info
         )
@@ -97,6 +100,7 @@ module.exports = (env) ->
             @emit 'event-start', info
         )
         @ongoingEvents = newOngoingEvents
+        env.logger.debug "Ongoing events: " + JSON.stringify(@ongoingEvents,null,2)
 
         _.forEach(nextEvents, (info) =>
           currentTime = now.getTime()
@@ -165,41 +169,6 @@ module.exports = (env) ->
             resolve(resp.body)
           )
       )
-
-    ###
-    getNextEvents: (events, from, to) ->
-      result = []
-      _.forEach(events, (event) =>
-        if event.rrule?
-          duration = event.end.getTime() - event.start.getTime()
-          # include events, that are ongoing
-          fromRrule = new Date(from)
-          fromRrule.setTime(fromRrule.getTime() - duration)
-          # get recurring events
-          dates = event.rrule.between(fromRrule, to, true)
-          _.forEach(dates, (date) =>
-            # calculate end
-            end = new Date(date)
-            end.setTime(date.getTime()+duration)
-            # add to result list
-            result.push({
-              start: date
-              end: end
-              event: event
-            })
-          )
-        # event starts between from and to or event is already started and ongoing
-        else if (event.start >= from and event.start <= to) or
-                (event.end >= from and event.start <= from)
-          # no recurring event, only add ones
-          result.push({
-            start: event.start
-            end: event.end
-            event: event
-          })
-      )
-      return _.sortBy result, (r) => r.start
-    ###
 
   class CalendarEventProvider extends env.predicates.PredicateProvider
 

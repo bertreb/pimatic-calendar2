@@ -14,3 +14,7 @@
 	* added username/password digest
 * 20200423, v0.9.8
 	* reduced info/debug messages
+* 20200502, v0.9.9
+	* fix for ongoing events
+	* added debug option in plugin config
+	* added debug info
